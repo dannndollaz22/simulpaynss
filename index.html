@@ -135,18 +135,10 @@
 
     <!-- 2. Simulation Mode Navigation Tabs -->
     <div class="tab-navigation">
-      <button class="nav-tab active" data-tab="manual">
-        <div class="tab-icon">🧮</div>
-        <div class="tab-text">
-          <span class="tab-title">1. TAC & Potongan</span>
-          <span class="tab-desc">✓</span>
-        </div>
-      </button>
-
-      <button class="nav-tab" data-tab="kredit">
+      <button class="nav-tab active" data-tab="kredit">
         <div class="tab-icon">💳</div>
         <div class="tab-text">
-          <span class="tab-title">2. Angsuran Kredit</span>
+          <span class="tab-title">1. Angsuran Kredit</span>
           <span class="tab-desc">FIF, OTO, BCA</span>
         </div>
       </button>
@@ -154,115 +146,16 @@
       <button class="nav-tab" data-tab="cash">
         <div class="tab-icon">💵</div>
         <div class="tab-text">
-          <span class="tab-title">3. Pembayaran</span>
+          <span class="tab-title">2. Pembayaran Tunai</span>
           <span class="tab-desc">Harga Akhir</span>
         </div>
       </button>
     </div>
 
     <!-- --------------------------------------------------------------------- -->
-    <!-- TAB 1: KALKULATOR MANUAL -->
+    <!-- TAB 1: ANGSURAN KREDIT -->
     <!-- --------------------------------------------------------------------- -->
-    <div id="tab-manual" class="tab-panel active">
-      <div class="simulation-layout">
-
-        <!-- Left Column: Inputs -->
-        <div class="panel-card">
-          <div class="panel-title-bar">
-            <i data-lucide="sliders" class="text-honda-red"></i>
-            <h3>Kalkulator Manual</h3>
-          </div>
-
-          <div class="form-group mb-4">
-            <label class="form-label">
-              <span>Pilih DP / Uang Muka (Rp)</span>
-            </label>
-            <div class="chip-grid">
-              <button class="chip-btn dp-chip" data-pct="10">10%</button>
-              <button class="chip-btn dp-chip" data-pct="15">15%</button>
-              <button class="chip-btn dp-chip active" data-pct="20">20%</button>
-              <button class="chip-btn dp-chip" data-pct="25">25%</button>
-              <button class="chip-btn dp-chip" data-pct="30">30%</button>
-            </div>
-
-            <input type="range" id="manual-dp-range" class="range-slider" min="2000000" max="15000000" step="100000" />
-
-            <div class="flex items-center gap-2 mt-1">
-              <span class="text-xs font-bold text-slate-500">Nominal DP Manual:</span>
-              <input type="text" id="manual-dp-input" class="form-input text-right font-black"
-                style="padding: 0.4rem 0.75rem;" value="5.250.000" />
-            </div>
-          </div>
-
-          <div class="form-group mb-4">
-            <label class="form-label text-slate-600">
-              <i data-lucide="tag" class="w-3.5 h-3.5"></i>
-              <span>Potongan Promo Diskon DP (Rp)</span>
-            </label>
-            <input type="text" id="manual-discount-input" class="form-input" value="500.000" />
-          </div>
-
-          <div class="form-group mb-4">
-            <label class="form-label">
-              <span>Masukkan Nilai TAC 1 (Rp)</span>
-            </label>
-            <input type="text" id="manual-tac1-input" class="form-input text-right font-black" value="0" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">
-              <span>Masukkan Nilai TAC 2 (Rp)</span>
-            </label>
-            <input type="text" id="manual-tac2-input" class="form-input text-right font-black" value="0" />
-          </div>
-        </div>
-
-        <!-- Right Column: Results & Itemized Breakdown -->
-        <div class="results-card">
-          <div class="results-header">
-            <span class="results-header-title">Hasil Kalkulator Manual</span>
-            <span class="results-bike-tag selected-motor-name">SCOOPY PRESTIGE</span>
-          </div>
-
-          <div class="primary-result-box"
-            style="border-color: #3b82f6; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);">
-            <div class="primary-result-label" style="color: #60a5fa;">TOTAL AKHIR</div>
-            <div id="manual-result-final" class="primary-result-amount">Rp 0</div>
-            <div class="primary-result-sub">Hasil perhitungan (TAC 1 + TAC 2) - Pajak 12% - Voucher 225.000</div>
-          </div>
-
-          <table class="breakdown-table">
-            <tr>
-              <td>Harga OTR Honda</td>
-              <td class="selected-motor-otr">Rp 26.275.000</td>
-            </tr>
-            <tr>
-              <td>Uang Muka Net (DP setelah diskon)</td>
-              <td id="manual-result-netdp">Rp 4.750.000</td>
-            </tr>
-            <tr>
-              <td>Total TAC (TAC 1 + TAC 2)</td>
-              <td id="manual-result-totaltac">Rp 0</td>
-            </tr>
-            <tr>
-              <td>Potongan Pajak (12%) (-)</td>
-              <td id="manual-result-tax" class="text-slate-400">- Rp 0</td>
-            </tr>
-            <tr>
-              <td>Potongan Voucher (-)</td>
-              <td id="manual-result-voucher" class="text-slate-400">- Rp 225.000</td>
-            </tr>
-          </table>
-
-        </div>
-
-      </div>
-    </div>
-
-    <!-- --------------------------------------------------------------------- -->
-    <!-- TAB 2: ANGSURAN KREDIT -->
-    <!-- --------------------------------------------------------------------- -->
-    <div id="tab-kredit" class="tab-panel">
+    <div id="tab-kredit" class="tab-panel active">
       <div class="simulation-layout">
 
         <div class="panel-card">
@@ -272,7 +165,7 @@
           </div>
 
           <div class="form-group mb-4">
-            <label class="form-label">Pilih Leasing / Instansi</label>
+            <label class="form-label">Pilih Leasing</label>
             <div class="leasing-grid">
               <button class="leasing-btn active" data-leasing="fif">
                 <img src="./logo-fif.png" alt="FIF" class="leasing-logo logo-fif"
@@ -303,44 +196,91 @@
             </label>
             <input type="text" id="kredit-tac2-input" class="form-input text-right font-black" value="0" />
           </div>
+
+          <div class="form-group mt-6 border-t border-slate-700/50 pt-4">
+            <label class="form-label text-slate-300">
+              <i data-lucide="calculator" class="w-3.5 h-3.5 inline mr-1 text-honda-red"></i>
+              <span>DP / Uang Muka (Rp)</span>
+            </label>
+            <input type="text" id="kredit-dp-input" class="form-input text-right font-black" value="5.000.000" />
+            <span class="text-[11px] text-slate-400 mt-1 block">*Untuk estimasi angsuran bulanan</span>
+          </div>
+
+          <div class="form-group mt-3">
+            <label class="form-label text-slate-300">
+              <i data-lucide="gift" class="w-3.5 h-3.5 inline mr-1 text-green-400"></i>
+              <span>Subsidi Leasing (Rp)</span>
+            </label>
+            <input type="text" id="kredit-subsidi-input" class="form-input text-right font-black" value="0" />
+            <span class="text-[11px] text-slate-400 mt-1 block">*Otomatis terisi sesuai motor, bisa diubah manual</span>
+          </div>
         </div>
 
-        <div class="results-card">
-          <div class="results-header">
-            <span class="results-header-title">Hasil Simulasi Kredit</span>
-            <span class="results-bike-tag selected-motor-name">SCOOPY PRESTIGE</span>
+        <div class="results-card flex flex-col justify-between">
+          <div>
+            <div class="results-header">
+              <span class="results-header-title">Hasil Simulasi Kredit</span>
+              <span class="results-bike-tag selected-motor-name">SCOOPY PRESTIGE</span>
+            </div>
+
+            <div class="primary-result-box"
+              style="border-color: #f59e0b; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);">
+              <div class="primary-result-label" style="color: #fbbf24;">NILAI AKHIR LEASING</div>
+              <div id="kredit-result-final" class="primary-result-amount">Rp 0</div>
+              <div class="primary-result-sub" id="kredit-formula-desc">FIF: (TAC 1 + TAC 2) - 12% - Rp225.000 + Subsidi
+                Leasing</div>
+            </div>
+
+            <table class="breakdown-table">
+              <tr>
+                <td>Nilai TAC 1</td>
+                <td id="kredit-res-tac1">Rp 0</td>
+              </tr>
+              <tr id="kredit-row-tac2">
+                <td>Nilai TAC 2</td>
+                <td id="kredit-res-tac2">Rp 0</td>
+              </tr>
+              <tr>
+                <td>Potongan Pajak 12% ALL (-)</td>
+                <td id="kredit-res-tax" class="text-slate-400">- Rp 0</td>
+              </tr>
+              <tr>
+                <td>Potongan Voucher (-)</td>
+                <td id="kredit-res-voucher" class="text-slate-400">- Rp 225.000</td>
+              </tr>
+              <tr>
+                <td>Subsidi Leasing (+)</td>
+                <td id="kredit-res-subsidi" class="text-green-400">+ Rp 0</td>
+              </tr>
+            </table>
           </div>
 
-          <div class="primary-result-box"
-            style="border-color: #f59e0b; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);">
-            <div class="primary-result-label" style="color: #fbbf24;">NILAI AKHIR LEASING</div>
-            <div id="kredit-result-final" class="primary-result-amount">Rp 0</div>
-            <div class="primary-result-sub" id="kredit-formula-desc">Rumus: TAC 1 - TAC 2 - Pajak 12% - Voucher 225.000
-              + Subsidi Dealer</div>
+          <!-- Estimasi Angsuran -->
+          <div class="mt-4 border-t border-slate-700/50 pt-4">
+            <h4 class="text-xs font-bold text-slate-300 mb-3"><i data-lucide="calendar-clock"
+                class="inline w-4 h-4 mr-1 text-honda-red"></i> Estimasi Angsuran (1.5%/bln)</h4>
+            <div class="grid grid-cols-3 gap-2">
+              <div
+                class="bg-slate-800/80 border border-slate-700 rounded-lg p-2 text-center flex flex-col justify-center">
+                <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-1">1 Tahun</div>
+                <div id="kredit-angsuran-12" class="text-xs font-black text-white">Rp 0</div>
+                <div class="text-[9px] text-slate-500 mt-1">12x</div>
+              </div>
+              <div
+                class="bg-slate-800/80 border border-slate-700 rounded-lg p-2 text-center flex flex-col justify-center">
+                <div class="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-1">2 Tahun</div>
+                <div id="kredit-angsuran-24" class="text-xs font-black text-white">Rp 0</div>
+                <div class="text-[9px] text-slate-500 mt-1">24x</div>
+              </div>
+              <div
+                class="bg-slate-800/80 border border-honda-red/30 rounded-lg p-2 text-center flex flex-col justify-center"
+                style="background: rgba(204,0,0,0.05);">
+                <div class="text-[9px] text-honda-red font-bold uppercase tracking-wider mb-1">3 Tahun</div>
+                <div id="kredit-angsuran-36" class="text-xs font-black text-honda-red">Rp 0</div>
+                <div class="text-[9px] text-honda-red/70 mt-1">36x</div>
+              </div>
+            </div>
           </div>
-
-          <table class="breakdown-table">
-            <tr>
-              <td>Nilai TAC 1</td>
-              <td id="kredit-res-tac1">Rp 0</td>
-            </tr>
-            <tr id="kredit-row-tac2">
-              <td>Nilai TAC 2</td>
-              <td id="kredit-res-tac2">Rp 0</td>
-            </tr>
-            <tr>
-              <td>Potongan Pajak 12% ALL (-)</td>
-              <td id="kredit-res-tax" class="text-slate-400">- Rp 0</td>
-            </tr>
-            <tr>
-              <td>Potongan Voucher (-)</td>
-              <td id="kredit-res-voucher" class="text-slate-400">- Rp 225.000</td>
-            </tr>
-            <tr>
-              <td>Subsidi Dealer (+)</td>
-              <td id="kredit-res-subsidi" class="text-green-400">+ Rp 0</td>
-            </tr>
-          </table>
         </div>
 
       </div>
@@ -356,7 +296,7 @@
         <div class="panel-card">
           <div class="panel-title-bar">
             <i data-lucide="banknote" class="text-honda-red"></i>
-            <h3>Parameter Pembayaran Akhir</h3>
+            <h3>Parameter Pembayaran Tunai</h3>
           </div>
 
           <div class="form-group mb-4">
@@ -401,11 +341,11 @@
             </tr>
             <tr>
               <td>Potongan Diskon Promo (-)</td>
-              <td id="cash-result-disc">Rp 500.000</td>
+              <td id="cash-result-disc" class="text-slate-400">- Rp 500.000</td>
             </tr>
             <tr>
               <td>DP Tanda Jadi Awal (-)</td>
-              <td id="cash-result-booking">Rp 500.000</td>
+              <td id="cash-result-booking" class="text-slate-400">- Rp 500.000</td>
             </tr>
             <tr class="highlight-row">
               <td>Sisa Pelunasan Saat Delivery</td>
@@ -501,9 +441,24 @@
           <h4>Showroom & Kontak</h4>
           <ul class="footer-links">
             <li><a href="#">Jl. Soekarno Hatta D510 Malang</a></li>
-            <li><a href="tel:082293593950">Telp/WA: 082293593950</a></li>
+            <li><a href="https://wa.me/6282293593950?text=haloo, website ada kendala nihh mohon bantuan nya yaa 🙏🏻"
+                target="_blank">Telp/WA: 082293593950</a></li>
             <li><a href="#">Marketing: Ardan Pramudya</a></li>
             <li><a href="#">Jam Buka: 08.00 - 17.00 WIB</a></li>
+            <li style="margin-top: 0.75rem; display: flex; gap: 0.75rem; align-items: center;">
+              <a href="https://www.instagram.com/ardanpramudyaa?igsi=NHgzM3hhdGExZjI5&utm_source=qr" target="_blank"
+                class="ig-logo-image-link" title="Instagram">
+                <img src="ig-logo.png" alt="Instagram @ardanpramudyaa" class="ig-logo-image" />
+              </a>
+              <a href="mailto:ardanpramudya91@gmail.com?subject=Report%20Trouble%20Website%20simulpaynss&body=Halo%20Admin%2C%0A%0ASaya%20ingin%20melaporkan%20kendala%20terkait%20website%20Simulpay%20NSS.%0A%0ADetail%20Kendala%3A%0A-%0A%0ATerima%20kasih."
+                class="email-report-btn" title="Report Trouble">
+                <img src="logo-gmail.png" alt="Email Admin" class="email-logo-image" />
+              </a>
+              <a href="https://www.linkedin.com/in/ardanpramudya" target="_blank" class="ig-logo-image-link"
+                title="LinkedIn">
+                <img src="logo-linkedin.png" alt="LinkedIn Ardan Pramudya" class="email-logo-image" />
+              </a>
+            </li>
           </ul>
         </div>
 

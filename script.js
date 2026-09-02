@@ -57,14 +57,7 @@ const HONDA_CATALOG = [
 
 // 2. Global Application State
 let selectedMotor = HONDA_CATALOG.find(m => m.id === 'scoopy-prestige') || HONDA_CATALOG[0];
-let activeTab = 'manual'; // 'manual', 'cash'
-
-// Manual State
-let manualDpPercent = 20; // Default 20%
-let manualDpAmount = Math.round((selectedMotor.otr * 0.2) / 50000) * 50000;
-let manualDpDiscount = 500000; // Promo diskon DP
-let manualTac1 = 0;
-let manualTac2 = 0;
+let activeTab = 'kredit'; // 'kredit', 'cash'
 
 // Cash State
 let cashDiscount = 500000; // Diskon tunai promo
@@ -74,6 +67,8 @@ let cashDpBooking = 500000; // DP tanda jadi cash
 let activeLeasing = 'fif'; // 'fif', 'oto', 'bca'
 let kreditTac1 = 0;
 let kreditTac2 = 0;
+let kreditDpAmount = 5000000;
+let kreditSubsidiManual = null; // null = auto dari motor, angka = manual override
 
 // Helper: Format Currency Rupiah
 function formatRupiah(num) {
@@ -106,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMotorSelector();
   initCategoryFilters();
   initTabNavigation();
-  initManualListeners();
   initCashListeners();
   initKreditListeners();
   initPriceListTable();
@@ -189,21 +183,14 @@ function updateMotorSelection(motorId) {
     }
   });
 
-  // Recalculate DP based on 20% default if needed
-  manualDpAmount = Math.round((motor.otr * (manualDpPercent / 100)) / 50000) * 50000;
-  
-  // Update Inputs
-  const dpInput = document.getElementById('manual-dp-input');
-  const dpRange = document.getElementById('manual-dp-range');
-  if (dpInput) dpInput.value = manualDpAmount.toLocaleString('id-ID');
-  if (dpRange) {
-    dpRange.min = Math.round(motor.otr * 0.1);
-    dpRange.max = Math.round(motor.otr * 0.7);
-    dpRange.value = manualDpAmount;
+  // Auto-fill subsidi dealer based on selected motor
+  const autoSubsidi = getSubsidiDealer(motor);
+  if (kreditSubsidiManual === null) {
+    const subsidiInput = document.getElementById('kredit-subsidi-input');
+    if (subsidiInput) subsidiInput.value = autoSubsidi.toLocaleString('id-ID');
   }
 
   // Update All Active Calculations
-  calculateManual();
   calculateCash();
   if (typeof calculateKredit === 'function') calculateKredit();
 }
@@ -227,107 +214,10 @@ function initTabNavigation() {
       activeTab = targetId;
 
       // Update calculations and WA link for the new tab mode
-      calculateManual();
       calculateCash();
       if (typeof calculateKredit === 'function') calculateKredit();
     });
   });
-}
-
-/* --------------------------------------------------------------------------
-   FEATURE 1: MANUAL CALCULATOR LOGIC
-   -------------------------------------------------------------------------- */
-function initManualListeners() {
-  const dpInput = document.getElementById('manual-dp-input');
-  const dpRange = document.getElementById('manual-dp-range');
-  const discountInput = document.getElementById('manual-discount-input');
-  const tac1Input = document.getElementById('manual-tac1-input');
-  const tac2Input = document.getElementById('manual-tac2-input');
-
-  // DP Chips (10%, 15%, 20%, 25%, 30%)
-  document.querySelectorAll('.dp-chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.dp-chip').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const pct = parseFloat(btn.getAttribute('data-pct'));
-      manualDpPercent = pct;
-      manualDpAmount = Math.round((selectedMotor.otr * (pct / 100)) / 50000) * 50000;
-
-      if (dpInput) dpInput.value = manualDpAmount.toLocaleString('id-ID');
-      if (dpRange) dpRange.value = manualDpAmount;
-
-      calculateManual();
-    });
-  });
-
-  // Manual DP Input (Isi manual, hasil otomatis)
-  if (dpInput) {
-    dpInput.addEventListener('input', (e) => {
-      manualDpAmount = parseCurrency(e.target.value);
-      formatInputWithCursor(e, manualDpAmount);
-      if (dpRange) dpRange.value = manualDpAmount;
-      calculateManual();
-    });
-  }
-
-  // DP Range Slider
-  if (dpRange) {
-    dpRange.addEventListener('input', (e) => {
-      manualDpAmount = parseInt(e.target.value, 10);
-      if (dpInput) dpInput.value = manualDpAmount.toLocaleString('id-ID');
-      calculateManual();
-    });
-  }
-
-  // Discount Input
-  if (discountInput) {
-    discountInput.addEventListener('input', (e) => {
-      manualDpDiscount = parseCurrency(e.target.value);
-      formatInputWithCursor(e, manualDpDiscount);
-      calculateManual();
-    });
-  }
-
-  if (tac1Input) {
-    tac1Input.addEventListener('input', (e) => {
-      manualTac1 = parseCurrency(e.target.value);
-      formatInputWithCursor(e, manualTac1);
-      calculateManual();
-    });
-  }
-
-  if (tac2Input) {
-    tac2Input.addEventListener('input', (e) => {
-      manualTac2 = parseCurrency(e.target.value);
-      formatInputWithCursor(e, manualTac2);
-      calculateManual();
-    });
-  }
-}
-
-function calculateManual() {
-  const otr = selectedMotor.otr;
-  const rawDp = manualDpAmount;
-  const netDp = Math.max(0, rawDp - manualDpDiscount);
-
-  const totalTac = manualTac1 + manualTac2;
-  const tax = totalTac * 0.12;
-  const voucher = 225000;
-  const finalTotal = Math.max(0, totalTac - tax - voucher);
-
-  // Update Results UI
-  const finalEl = document.getElementById('manual-result-final');
-  const netDpEl = document.getElementById('manual-result-netdp');
-  const totalTacEl = document.getElementById('manual-result-totaltac');
-  const taxEl = document.getElementById('manual-result-tax');
-  const voucherEl = document.getElementById('manual-result-voucher');
-
-  if (finalEl) finalEl.textContent = formatRupiah(finalTotal);
-  if (netDpEl) netDpEl.textContent = formatRupiah(netDp);
-  if (totalTacEl) totalTacEl.textContent = formatRupiah(totalTac);
-  if (taxEl) taxEl.textContent = '- ' + formatRupiah(tax);
-  if (voucherEl) voucherEl.textContent = '- ' + formatRupiah(voucher);
 }
 
 /* --------------------------------------------------------------------------
@@ -367,8 +257,8 @@ function calculateCash() {
 
   if (finalEl) finalEl.textContent = formatRupiah(finalPriceToPay);
   if (otrEl) otrEl.textContent = formatRupiah(otr);
-  if (discEl) discEl.textContent = formatRupiah(cashDiscount);
-  if (bookingEl) bookingEl.textContent = formatRupiah(cashDpBooking);
+  if (discEl) discEl.textContent = '- ' + formatRupiah(cashDiscount);
+  if (bookingEl) bookingEl.textContent = '- ' + formatRupiah(cashDpBooking);
   if (remainEl) remainEl.textContent = formatRupiah(remainingOnDelivery);
 }
 
@@ -410,11 +300,11 @@ function initKreditListeners() {
       if(activeLeasing === 'fif') {
         if(tac2Group) tac2Group.style.display = 'flex';
         if(tac2Row) tac2Row.style.display = 'table-row';
-        if(formulaDesc) formulaDesc.textContent = 'Rumus: TAC 1 - TAC 2 - Pajak 12% - Voucher 225.000 + Subsidi Dealer';
+        if(formulaDesc) formulaDesc.textContent = 'FIF: (TAC 1 + TAC 2) - 12% - Rp225.000 + Subsidi Leasing';
       } else {
         if(tac2Group) tac2Group.style.display = 'none';
         if(tac2Row) tac2Row.style.display = 'none';
-        if(formulaDesc) formulaDesc.textContent = 'Rumus: TAC 1 - Pajak 12% - Voucher 225.000 + Subsidi Dealer';
+        if(formulaDesc) formulaDesc.textContent = 'OTO/BCA: TAC 1 - 12% - Rp225.000 + Subsidi Leasing';
       }
       
       calculateKredit();
@@ -436,25 +326,60 @@ function initKreditListeners() {
       calculateKredit();
     });
   }
+
+  const dpInput = document.getElementById('kredit-dp-input');
+  if (dpInput) {
+    dpInput.addEventListener('input', (e) => {
+      kreditDpAmount = parseCurrency(e.target.value);
+      formatInputWithCursor(e, kreditDpAmount);
+      calculateKredit();
+    });
+  }
+
+  const subsidiInput = document.getElementById('kredit-subsidi-input');
+  if (subsidiInput) {
+    subsidiInput.addEventListener('input', (e) => {
+      kreditSubsidiManual = parseCurrency(e.target.value);
+      formatInputWithCursor(e, kreditSubsidiManual);
+      calculateKredit();
+    });
+  }
 }
 
 function calculateKredit() {
-  const subsidi = getSubsidiDealer(selectedMotor);
+  // Use manual subsidi if set, else auto from motor catalog
+  const subsidi = (kreditSubsidiManual !== null) ? kreditSubsidiManual : getSubsidiDealer(selectedMotor);
   const voucher = 225000;
   let finalResult = 0;
   let tax = 0;
   
   if(activeLeasing === 'fif') {
-    tax = (kreditTac1 - kreditTac2) * 0.12;
-    finalResult = kreditTac1 - kreditTac2 - tax - voucher + subsidi;
+    // FIF: (TAC 1 + TAC 2) dikurang 12% pajak, dikurang voucher, ditambah subsidi
+    const base = kreditTac1 + kreditTac2;
+    tax = base * 0.12;
+    finalResult = base - tax - voucher + subsidi;
   } else {
-    // OTO & BCA
+    // OTO & BCA: hanya TAC 1
     tax = kreditTac1 * 0.12;
     finalResult = kreditTac1 - tax - voucher + subsidi;
   }
   
   finalResult = Math.max(0, finalResult);
 
+  // Installment Estimations (1.5% flat per month)
+  const otr = selectedMotor.otr;
+  const dp = kreditDpAmount;
+  const loan = Math.max(0, otr - dp);
+  
+  const calcInstallment = (months) => {
+    return Math.round(((loan / months) + (loan * 0.015)) / 1000) * 1000;
+  };
+  
+  const inst12 = calcInstallment(12);
+  const inst24 = calcInstallment(24);
+  const inst36 = calcInstallment(36);
+
+  // Update UI Elements
   const finalEl = document.getElementById('kredit-result-final');
   const tac1El = document.getElementById('kredit-res-tac1');
   const tac2El = document.getElementById('kredit-res-tac2');
@@ -462,12 +387,20 @@ function calculateKredit() {
   const voucherEl = document.getElementById('kredit-res-voucher');
   const subsidiEl = document.getElementById('kredit-res-subsidi');
 
+  const el12 = document.getElementById('kredit-angsuran-12');
+  const el24 = document.getElementById('kredit-angsuran-24');
+  const el36 = document.getElementById('kredit-angsuran-36');
+
   if (finalEl) finalEl.textContent = formatRupiah(finalResult);
   if (tac1El) tac1El.textContent = formatRupiah(kreditTac1);
   if (tac2El) tac2El.textContent = formatRupiah(kreditTac2);
   if (taxEl) taxEl.textContent = '- ' + formatRupiah(tax);
   if (voucherEl) voucherEl.textContent = '- ' + formatRupiah(voucher);
   if (subsidiEl) subsidiEl.textContent = '+ ' + formatRupiah(subsidi);
+  
+  if (el12) el12.textContent = formatRupiah(inst12);
+  if (el24) el24.textContent = formatRupiah(inst24);
+  if (el36) el36.textContent = formatRupiah(inst36);
 }
 
 /* --------------------------------------------------------------------------
