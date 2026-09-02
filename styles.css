@@ -64,13 +64,10 @@ body {
   font-family: var(--font-body);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 main.app-container {
-  flex: 1;
+  min-height: 60vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -183,10 +180,7 @@ input, select, button {
 
 @media (max-width: 768px) {
   .header-center-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) scale(0.65);
-    z-index: 10;
+    display: none;
   }
 }
 
@@ -1409,13 +1403,22 @@ input, select, button {
 
   /* Tab Navigation Mobile Grid */
   .tab-navigation {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
     gap: 0.5rem;
     margin-bottom: 1.25rem;
+    padding-bottom: 0.25rem; /* Space for scrollbar */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .tab-navigation::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
   }
 
   .nav-tab {
-    padding: 0.75rem 1rem;
+    flex: 0 0 75%; /* Each tab takes 75% width so next one is visible */
+    padding: 0.75rem;
     flex-direction: row;
     align-items: center;
     text-align: left;
