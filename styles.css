@@ -56,8 +56,6 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  overflow-x: hidden;
-  width: 100%;
 }
 
 body {
@@ -69,8 +67,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow-x: hidden;
-  width: 100%;
 }
 
 main.app-container {
@@ -1412,35 +1408,37 @@ input, select, button {
     font-size: 1.2rem;
   }
 
-  /* Tab Navigation Mobile Grid */
+  /* Tab Navigation Mobile Compact Grid */
   .tab-navigation {
-    display: flex;
-    overflow-x: auto;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
     margin-bottom: 1.25rem;
-    padding-bottom: 0.25rem; /* Space for scrollbar */
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-  }
-
-  .tab-navigation::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
   }
 
   .nav-tab {
-    flex: 0 0 75%; /* Each tab takes 75% width so next one is visible */
-    padding: 0.75rem;
-    flex-direction: row;
+    padding: 0.5rem 0.25rem;
+    flex-direction: column;
     align-items: center;
-    text-align: left;
-    gap: 0.75rem;
+    text-align: center;
+    gap: 0.35rem;
     border-radius: var(--radius-md);
   }
 
+  .nav-tab .tab-desc {
+    display: none; /* Hide desc on mobile to save vertical space */
+  }
+
+  .nav-tab .tab-title {
+    font-size: 0.7rem; /* Smaller font to prevent wrapping */
+    line-height: 1.1;
+    margin-bottom: 0;
+  }
+
   .tab-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
+    width: 26px;
+    height: 26px;
+    font-size: 0.85rem;
     border-radius: var(--radius-sm);
   }
 
