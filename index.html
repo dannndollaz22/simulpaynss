@@ -1,0 +1,558 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HSP - Honda Simulation Payment | Official Honda Malang</title>
+  <meta name="description"
+    content="Kalkulator Simulasi Pembayaran Motor Honda Resmi. Hitung Simulasi Kredit Tenor 1, 2, 3 Tahun, Pembayaran Tunai, dan Simulasi Kustom Sesuai Dana Konsumen secara Akurat." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Top Bar Banner -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="flex items-center gap-2">
+        <span class="blink-dot"></span>
+        <span class="top-bar-text">Realtime Website By Ardan Pramudya</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="#" class="brand-logo">
+        <div class="honda-wing-icon">
+          <!-- Honda Wing SVG -->
+          <svg class="honda-wing-svg" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M 5,75 C 22,35 52,15 95,12 C 65,28 40,48 30,80 Z" />
+            <path d="M 12,80 C 26,48 54,30 88,27 C 60,38 42,58 34,85 Z" />
+            <path d="M 20,85 C 32,58 55,42 80,40 C 56,52 42,68 37,90 Z" />
+            <path d="M 28,90 C 36,70 54,55 70,54 C 52,62 42,76 39,94 Z" />
+          </svg>
+        </div>
+        <div class="brand-text-wrapper">
+          <span class="brand-title">HSP</span>
+          <span class="brand-subtitle">HONDA SIMULATION PAYMENT</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="nss-logo-badge">
+          <div class="nss-logo-icon">NSS</div>
+          <div class="nss-logo-text">
+            <span class="nss-title">NUSANTARA SURYA SAKTI</span>
+            <span class="nss-subtitle">Authorized Honda Dealer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Title Section -->
+  <section class="hero-banner">
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <i data-lucide="calculator" class="w-4 h-4"></i>
+        <span>Kalkulator Simulasi Pembayaran Dealer NSS 2026</span>
+      </div>
+      <h1 class="hero-title">
+        Simulasi Pembayaran <span>Dealer NSS</span>
+      </h1>
+      <p class="hero-desc">
+        Hitung simulasi kalkulator manual, estimasi pembayaran tunai menyesuaikan
+        kebutuhan dan budget dana Anda secara otomatis & akurat.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Application Container -->
+  <main class="container app-container">
+
+    <!-- 1. Motorcycle Selector Card -->
+    <div class="motor-selector-card">
+      <div class="selector-header">
+        <div class="selector-title">
+          <i data-lucide="bike" class="text-honda-red"></i>
+          <span>1. Pilih Tipe Motor Honda & Harga OTR</span>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="category-pills">
+          <button class="cat-pill active" data-cat="all">Semua Tipe</button>
+          <button class="cat-pill" data-cat="Matic">Matic / Scooter</button>
+          <button class="cat-pill" data-cat="Bebek">Bebek / Cub</button>
+          <button class="cat-pill" data-cat="Sport">Sport</button>
+          <button class="cat-pill" data-cat="EV">EV Listrik</button>
+        </div>
+      </div>
+
+      <div class="motor-select-grid">
+        <div class="form-group">
+          <label class="form-label" for="motor-select">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+            Pilih Model Motor Honda
+          </label>
+          <select id="motor-select" class="form-select">
+            <!-- Populated via JavaScript -->
+          </select>
+        </div>
+
+        <div class="selected-motor-preview">
+          <div class="selected-motor-info">
+            <span class="motor-category-tag selected-motor-category">Matic</span>
+            <h4 class="selected-motor-name">SCOOPY PRESTIGE/STYLISH</h4>
+            <p class="text-xs text-slate-500 mt-0.5">Tipe Garansi Rangka 5 Tahun Official Honda</p>
+          </div>
+          <div class="selected-motor-price">
+            <span class="price-label">Harga OTR Malang</span>
+            <div class="price-value selected-motor-otr">Rp 26.275.000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Simulation Mode Navigation Tabs -->
+    <div class="tab-navigation">
+      <button class="nav-tab active" data-tab="manual">
+        <div class="tab-icon">🧮</div>
+        <div class="tab-text">
+          <span class="tab-title">1. Kalkulator Manual</span>
+          <span class="tab-desc">Hitung TAC & Potongan</span>
+        </div>
+      </button>
+
+      <button class="nav-tab" data-tab="kredit">
+        <div class="tab-icon">💳</div>
+        <div class="tab-text">
+          <span class="tab-title">2. Angsuran Kredit</span>
+          <span class="tab-desc">FIF, OTO, BCA</span>
+        </div>
+      </button>
+
+      <button class="nav-tab" data-tab="cash">
+        <div class="tab-icon">💵</div>
+        <div class="tab-text">
+          <span class="tab-title">3. Pembayaran Tunai</span>
+          <span class="tab-desc">DP Tanda Jadi & Harga Akhir</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- TAB 1: KALKULATOR MANUAL -->
+    <!-- --------------------------------------------------------------------- -->
+    <div id="tab-manual" class="tab-panel active">
+      <div class="simulation-layout">
+
+        <!-- Left Column: Inputs -->
+        <div class="panel-card">
+          <div class="panel-title-bar">
+            <i data-lucide="sliders" class="text-honda-red"></i>
+            <h3>Parameter Kalkulator Manual</h3>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label">
+              <span>Pilih DP / Uang Muka (Rp)</span>
+            </label>
+            <div class="chip-grid">
+              <button class="chip-btn dp-chip" data-pct="10">10%</button>
+              <button class="chip-btn dp-chip" data-pct="15">15%</button>
+              <button class="chip-btn dp-chip active" data-pct="20">20%</button>
+              <button class="chip-btn dp-chip" data-pct="25">25%</button>
+              <button class="chip-btn dp-chip" data-pct="30">30%</button>
+            </div>
+
+            <input type="range" id="manual-dp-range" class="range-slider" min="2000000" max="15000000" step="100000" />
+
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs font-bold text-slate-500">Nominal DP Manual:</span>
+              <input type="text" id="manual-dp-input" class="form-input text-right font-black"
+                style="padding: 0.4rem 0.75rem;" value="5.250.000" />
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label text-slate-600">
+              <i data-lucide="tag" class="w-3.5 h-3.5"></i>
+              <span>Potongan Promo Diskon DP (Rp)</span>
+            </label>
+            <input type="text" id="manual-discount-input" class="form-input" value="500.000" />
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label">
+              <span>Masukkan Nilai TAC 1 (Rp)</span>
+            </label>
+            <input type="text" id="manual-tac1-input" class="form-input text-right font-black" value="0" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span>Masukkan Nilai TAC 2 (Rp)</span>
+            </label>
+            <input type="text" id="manual-tac2-input" class="form-input text-right font-black" value="0" />
+          </div>
+        </div>
+
+        <!-- Right Column: Results & Itemized Breakdown -->
+        <div class="results-card">
+          <div class="results-header">
+            <span class="results-header-title">Hasil Kalkulator Manual</span>
+            <span class="results-bike-tag selected-motor-name">SCOOPY PRESTIGE</span>
+          </div>
+
+          <div class="primary-result-box"
+            style="border-color: #3b82f6; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);">
+            <div class="primary-result-label" style="color: #60a5fa;">TOTAL AKHIR</div>
+            <div id="manual-result-final" class="primary-result-amount">Rp 0</div>
+            <div class="primary-result-sub">Hasil perhitungan (TAC 1 + TAC 2) - Pajak 12% - Voucher 225.000</div>
+          </div>
+
+          <table class="breakdown-table">
+            <tr>
+              <td>Harga OTR Honda</td>
+              <td class="selected-motor-otr">Rp 26.275.000</td>
+            </tr>
+            <tr>
+              <td>Uang Muka Net (DP setelah diskon)</td>
+              <td id="manual-result-netdp">Rp 4.750.000</td>
+            </tr>
+            <tr>
+              <td>Total TAC (TAC 1 + TAC 2)</td>
+              <td id="manual-result-totaltac">Rp 0</td>
+            </tr>
+            <tr>
+              <td>Potongan Pajak (12%) (-)</td>
+              <td id="manual-result-tax" class="text-slate-400">- Rp 0</td>
+            </tr>
+            <tr>
+              <td>Potongan Voucher (-)</td>
+              <td id="manual-result-voucher" class="text-slate-400">- Rp 225.000</td>
+            </tr>
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- TAB 2: ANGSURAN KREDIT -->
+    <!-- --------------------------------------------------------------------- -->
+    <div id="tab-kredit" class="tab-panel">
+      <div class="simulation-layout">
+
+        <div class="panel-card">
+          <div class="panel-title-bar">
+            <i data-lucide="credit-card" class="text-honda-red"></i>
+            <h3>Parameter Angsuran Kredit</h3>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label">Pilih Leasing / Instansi</label>
+            <div class="leasing-grid">
+              <button class="leasing-btn active" data-leasing="fif">
+                <img src="./logo-fif.png" alt="FIF" class="leasing-logo logo-fif"
+                  onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-bold text-lg\'>FIFGROUP</span>';" />
+              </button>
+              <button class="leasing-btn" data-leasing="oto">
+                <img src="./logo-oto.png" alt="OTO" class="leasing-logo logo-oto"
+                  onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-bold text-lg\'>OTO</span>';" />
+              </button>
+              <button class="leasing-btn" data-leasing="bca">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA"
+                  class="leasing-logo logo-bca"
+                  onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'font-bold text-lg\'>BCA</span>';" />
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label">
+              <span>Masukkan Nilai TAC 1 (Rp)</span>
+            </label>
+            <input type="text" id="kredit-tac1-input" class="form-input text-right font-black" value="0" />
+          </div>
+
+          <div class="form-group mb-4" id="kredit-tac2-group">
+            <label class="form-label">
+              <span>Masukkan Nilai TAC 2 (Rp)</span>
+            </label>
+            <input type="text" id="kredit-tac2-input" class="form-input text-right font-black" value="0" />
+          </div>
+        </div>
+
+        <div class="results-card">
+          <div class="results-header">
+            <span class="results-header-title">Hasil Simulasi Kredit</span>
+            <span class="results-bike-tag selected-motor-name">SCOOPY PRESTIGE</span>
+          </div>
+
+          <div class="primary-result-box"
+            style="border-color: #f59e0b; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);">
+            <div class="primary-result-label" style="color: #fbbf24;">NILAI AKHIR LEASING</div>
+            <div id="kredit-result-final" class="primary-result-amount">Rp 0</div>
+            <div class="primary-result-sub" id="kredit-formula-desc">Rumus: TAC 1 - TAC 2 - Pajak 12% - Voucher 225.000
+              + Subsidi Dealer</div>
+          </div>
+
+          <table class="breakdown-table">
+            <tr>
+              <td>Nilai TAC 1</td>
+              <td id="kredit-res-tac1">Rp 0</td>
+            </tr>
+            <tr id="kredit-row-tac2">
+              <td>Nilai TAC 2</td>
+              <td id="kredit-res-tac2">Rp 0</td>
+            </tr>
+            <tr>
+              <td>Potongan Pajak 12% ALL (-)</td>
+              <td id="kredit-res-tax" class="text-slate-400">- Rp 0</td>
+            </tr>
+            <tr>
+              <td>Potongan Voucher (-)</td>
+              <td id="kredit-res-voucher" class="text-slate-400">- Rp 225.000</td>
+            </tr>
+            <tr>
+              <td>Subsidi Dealer (+)</td>
+              <td id="kredit-res-subsidi" class="text-green-400">+ Rp 0</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- TAB 3: PEMBAYARAN TUNAI (CASH SIMULATION) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div id="tab-cash" class="tab-panel">
+      <div class="simulation-layout">
+
+        <!-- Left Panel -->
+        <div class="panel-card">
+          <div class="panel-title-bar">
+            <i data-lucide="banknote" class="text-honda-red"></i>
+            <h3>Parameter Pembayaran Tunai / Cash</h3>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label">Harga OTR Motor Honda</label>
+            <input type="text" class="form-input selected-motor-otr font-black" readonly />
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label text-slate-600">
+              <i data-lucide="tag" class="w-3.5 h-3.5"></i>
+              Potongan Diskon Promo Cash (Rp)
+            </label>
+            <input type="text" id="cash-discount-input" class="form-input" value="500.000" />
+            <span class="text-[11px] text-slate-400 mt-1">*Diskon cashback tunai langsung dari dealer</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">DP Tanda Jadi / Booking Fee (Rp)</label>
+            <input type="text" id="cash-booking-input" class="form-input" value="500.000" />
+            <span class="text-[11px] text-slate-400 mt-1">*Dibayarkan saat pemesanan awal unit</span>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="results-card">
+          <div class="results-header">
+            <span class="results-header-title">Ringkasan Pembayaran Tunai</span>
+            <span class="results-bike-tag selected-motor-name">SCOOPY PRESTIGE</span>
+          </div>
+
+          <div class="primary-result-box"
+            style="border-color: #22C55E; background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(15, 23, 42, 0.8) 100%);">
+            <div class="primary-result-label" style="color: #4ADE80;">HARGA AKHIR YANG HARUS DIBAYAR</div>
+            <div id="cash-result-final" class="primary-result-amount">Rp 25.775.000</div>
+            <div class="primary-result-sub">Termasuk STNK, BPKB & Garansi Resmi</div>
+          </div>
+
+          <table class="breakdown-table">
+            <tr>
+              <td>Harga Normal OTR</td>
+              <td id="cash-result-otr">Rp 26.275.000</td>
+            </tr>
+            <tr>
+              <td>Potongan Diskon Promo (-)</td>
+              <td id="cash-result-disc">Rp 500.000</td>
+            </tr>
+            <tr>
+              <td>DP Tanda Jadi Awal (-)</td>
+              <td id="cash-result-booking">Rp 500.000</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>Sisa Pelunasan Saat Delivery</td>
+              <td id="cash-result-remain">Rp 25.275.000</td>
+            </tr>
+          </table>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- 3. HONDA MOTORCYCLE PRICE LIST TABLE -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="pricelist-section">
+      <div class="section-title-box">
+        <h2>Daftar Harga OTR Motor Honda Malang 2026</h2>
+        <p>Tabel lengkap harga OTR resmi dan estimasi DP minimal.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="table-controls">
+          <div class="flex items-center gap-2">
+            <i data-lucide="list" class="text-honda-red"></i>
+            <span class="font-extrabold text-slate-900 text-sm">Katalog Lengkap (50+ Tipe Unit)</span>
+          </div>
+          <input type="text" id="table-search-input" class="form-input table-search-input"
+            placeholder="Cari tipe motor (e.g. Beat, Vario, PCX)..." />
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="honda-table">
+            <thead>
+              <tr>
+                <th class="text-center">No</th>
+                <th>Type Motor</th>
+                <th class="text-right">Harga OTR Malang</th>
+                <th class="text-right">Est. DP Min (15%)</th>
+                <th class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="honda-table-body">
+              <!-- Populated via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Professional Corporate License Footer -->
+  <footer class="corporate-footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <div class="footer-logo-row">
+            <div class="honda-wing-icon" style="width: 36px; height: 36px;">
+              <svg class="honda-wing-svg" style="width: 22px; height: 22px;" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M 5,75 C 22,35 52,15 95,12 C 65,28 40,48 30,80 Z" />
+                <path d="M 12,80 C 26,48 54,30 88,27 C 60,38 42,58 34,85 Z" />
+                <path d="M 20,85 C 32,58 55,42 80,40 C 56,52 42,68 37,90 Z" />
+                <path d="M 28,90 C 36,70 54,55 70,54 C 52,62 42,76 39,94 Z" />
+              </svg>
+            </div>
+            <span class="footer-logo-text">HSP HONDA SIMULATION PAYMENT</span>
+          </div>
+          <p class="footer-desc">
+            Sistem Layanan Simulasi Pembayaran Resmi Motor Honda Dealer PT. Nusantara Surya Sakti (NSS) Malang. Melayani
+            konsultasi pembelian cash, kredit, serta pengajuan berkas kilat Malang Raya.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Fitur Simulasi</h4>
+          <ul class="footer-links">
+            <li><a href="#tab-manual" onclick="document.querySelector('[data-tab=manual]').click();">Kalkulator
+                Manual</a></li>
+            <li><a href="#tab-cash" onclick="document.querySelector('[data-tab=cash]').click();">Pembayaran Tunai
+                (Cash)</a></li>
+            <li><a href="#tab-kredit" onclick="document.querySelector('[data-tab=kredit]').click();">Angsuran Kredit
+                (Leasing)</a></li>
+            <li><a href="#">Daftar Harga OTR 2026</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Showroom & Kontak</h4>
+          <ul class="footer-links">
+            <li><a href="#">Jl. Soekarno Hatta D510 Malang</a></li>
+            <li><a href="tel:082293593950">Telp/WA: 082293593950</a></li>
+            <li><a href="#">Marketing: Ardan Pramudya</a></li>
+            <li><a href="#">Jam Buka: 08.00 - 17.00 WIB</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Sertifikasi & Keamanan</h4>
+          <div class="space-y-2 text-xs text-slate-200">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="text-green-500 w-4 h-4"></i>
+              <span>Official Dealer Partner</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="lock" class="text-blue-400 w-4 h-4"></i>
+              <span>256-Bit SSL Encrypted</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="text-slate-500 w-4 h-4"></i>
+              <span>Garansi Rangka 5 Tahun</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Professional License Statement Block -->
+      <div class="license-container">
+        <div class="license-badge">
+          <span class="blink-dot"></span>
+          <span class="license-badge-text">Official Digital License System Verified</span>
+        </div>
+
+        <p class="copyright-statement">
+          2026 - 2030 Ardan Pramudya Copyright All Right Reserved.
+        </p>
+
+        <p class="legal-disclaimer">
+          Halaman ini khusus digunakan sebagai sistem simulasi kalkulasi pembayaran resmi motor Honda yang dikembangkan
+          oleh Ardan Pramudya. Seluruh hak cipta dan lisensi merek dagang Honda dimiliki oleh PT Astra Honda Motor (AHM)
+          &amp; PT Nusantara Surya Sakti (NSS). Perhitungan simulasi bersifat estimasi harga OTR dan angsuran resmi.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- Lucide Icon Trigger Script -->
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+
+</html>
