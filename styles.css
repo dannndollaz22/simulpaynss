@@ -169,7 +169,7 @@ input, select, button {
 }
 
 .hrc-logo {
-  height: 52px;
+  height: 65px;
   width: auto;
   opacity: 1;
 }
@@ -343,9 +343,9 @@ input, select, button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(23, 23, 23, 0.2);
-  border: 1px solid rgba(23, 23, 23, 0.4);
-  color: #A3A3A3;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
   padding: 0.35rem 1rem;
   border-radius: 99px;
   font-size: 0.8rem;
@@ -362,12 +362,12 @@ input, select, button {
 }
 
 .hero-title span {
-  color: #525252;
+  color: white;
 }
 
 .hero-desc {
   font-size: 1rem;
-  color: #94A3B8;
+  color: #F8FAFC;
   max-width: 650px;
   margin: 0 auto;
 }
