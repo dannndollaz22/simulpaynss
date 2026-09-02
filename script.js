@@ -60,16 +60,16 @@ let selectedMotor = HONDA_CATALOG.find(m => m.id === 'scoopy-prestige') || HONDA
 let activeTab = 'kredit'; // 'kredit', 'cash'
 
 // Cash State
-let cashDiscount = 500000; // Diskon tunai promo
-let cashDpBooking = 500000; // DP tanda jadi cash
+let cashDiscount = 0; // Diskon tunai promo
+let cashDpBooking = 0; // DP tanda jadi cash
 
 // Kredit State
 let activeLeasing = 'fif'; // 'fif', 'oto', 'bca'
 let kreditTac1 = 0;
 let kreditTac2 = 0;
-let kreditDpAmount = 5000000;
-let kreditSubsidiManual = null; // null = auto dari motor, angka = manual override
-let kreditBungaPerBulan = 1.5; // % per bulan, default 1.5%
+let kreditDpAmount = 0;
+let kreditSubsidiManual = 0; // null = auto dari motor, angka = manual override
+let kreditBungaPerBulan = 0; // % per bulan, default 0%
 
 // Helper: Format Currency Rupiah
 function formatRupiah(num) {
@@ -350,7 +350,7 @@ function initKreditListeners() {
   if (bungaInput) {
     bungaInput.addEventListener('input', (e) => {
       const val = parseFloat(e.target.value);
-      kreditBungaPerBulan = (!isNaN(val) && val >= 0) ? val : 1.5;
+      kreditBungaPerBulan = (!isNaN(val) && val >= 0) ? val : 0;
       calculateKredit();
     });
   }
