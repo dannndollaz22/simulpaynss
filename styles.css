@@ -1208,6 +1208,28 @@ input, select, button {
   display: block;
 }
 
+/* Tenor Cards */
+.tenor-card {
+  background: rgba(30, 41, 59, 0.8);
+  border: 2px solid rgba(71, 85, 105, 0.5);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.tenor-card:hover { border-color: rgba(100,116,139,0.8); }
+.tenor-card-highlight { border-color: rgba(204,0,0,0.4); background: rgba(204,0,0,0.07); }
+.tenor-header { font-size: 10px; color: #cbd5e1; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.25rem; }
+.tenor-label { font-size: 10px; color: #cbd5e1; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+.tenor-card-highlight .tenor-label { color: var(--honda-red); }
+.tenor-amount { font-size: 12px; font-weight: 900; color: white; }
+.tenor-card-highlight .tenor-amount { color: #fca5a5; }
+.tenor-count { font-size: 9px; color: #94a3b8; margin-top: 0.1rem; font-weight: 700; }
+.tenor-total-label { font-size: 9px; color: #64748b; margin-top: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.tenor-total-value { font-size: 10px; font-weight: 900; color: #93c5fd; margin-top: 0.1rem; }
+
 /* Professional License Box */
 .license-container {
   border: 1px solid rgba(255, 255, 255, 0.12);

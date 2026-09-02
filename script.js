@@ -69,6 +69,7 @@ let kreditTac1 = 0;
 let kreditTac2 = 0;
 let kreditDpAmount = 5000000;
 let kreditSubsidiManual = null; // null = auto dari motor, angka = manual override
+let kreditBungaPerBulan = 1.5; // % per bulan, default 1.5%
 
 // Helper: Format Currency Rupiah
 function formatRupiah(num) {
@@ -344,6 +345,15 @@ function initKreditListeners() {
       calculateKredit();
     });
   }
+
+  const bungaInput = document.getElementById('kredit-bunga-input');
+  if (bungaInput) {
+    bungaInput.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      kreditBungaPerBulan = (!isNaN(val) && val >= 0) ? val : 1.5;
+      calculateKredit();
+    });
+  }
 }
 
 function calculateKredit() {
@@ -366,13 +376,13 @@ function calculateKredit() {
   
   finalResult = Math.max(0, finalResult);
 
-  // Installment Estimations (1.5% flat per month)
+  // Installment: angsuran = (pokok / tenor) + (pokok × suku bunga per bulan)
   const otr = selectedMotor.otr;
   const dp = kreditDpAmount;
   const loan = Math.max(0, otr - dp);
-  
+  const rate = kreditBungaPerBulan / 100;
   const calcInstallment = (months) => {
-    return Math.round(((loan / months) + (loan * 0.015)) / 1000) * 1000;
+    return Math.round(((loan / months) + (loan * rate)) / 1000) * 1000;
   };
   
   const inst12 = calcInstallment(12);
@@ -397,10 +407,31 @@ function calculateKredit() {
   if (taxEl) taxEl.textContent = '- ' + formatRupiah(tax);
   if (voucherEl) voucherEl.textContent = '- ' + formatRupiah(voucher);
   if (subsidiEl) subsidiEl.textContent = '+ ' + formatRupiah(subsidi);
+
+  // Suku bunga section
+  const dpEl    = document.getElementById('kredit-res-dp');
+  const pokokEl = document.getElementById('kredit-res-pokok');
+  const bungaPctEl = document.getElementById('kredit-res-bunga-pct');
+  const bungaNomEl = document.getElementById('kredit-res-bunga-nominal');
+
+  const totalBungaPerTahun = loan * (kreditBungaPerBulan / 100) * 12;
+
+  if (dpEl)       dpEl.textContent = formatRupiah(dp);
+  if (pokokEl)    pokokEl.textContent = formatRupiah(loan);
+  if (bungaPctEl) bungaPctEl.textContent = kreditBungaPerBulan.toFixed(2) + '%';
+  if (bungaNomEl) bungaNomEl.textContent = formatRupiah(totalBungaPerTahun);
   
   if (el12) el12.textContent = formatRupiah(inst12);
   if (el24) el24.textContent = formatRupiah(inst24);
   if (el36) el36.textContent = formatRupiah(inst36);
+
+  // Total bayar per tenor = DP + (angsuran × jumlah bulan)
+  const tot12 = document.getElementById('kredit-total-12');
+  const tot24 = document.getElementById('kredit-total-24');
+  const tot36 = document.getElementById('kredit-total-36');
+  if (tot12) tot12.textContent = formatRupiah(dp + inst12 * 12);
+  if (tot24) tot24.textContent = formatRupiah(dp + inst24 * 24);
+  if (tot36) tot36.textContent = formatRupiah(dp + inst36 * 36);
 }
 
 /* --------------------------------------------------------------------------
