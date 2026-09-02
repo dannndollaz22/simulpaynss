@@ -1,4 +1,5 @@
 {
+  "name": "simulpaynss",
   "version": 2,
   "cleanUrls": true,
   "builds": [

@@ -5,11 +5,11 @@
    ========================================================================== */
 
 :root {
-  /* Brand Color Palette (Monochrome Theme) */
-  --honda-red: #171717;
-  --honda-red-dark: #000000;
-  --honda-red-light: #F3F4F6;
-  --honda-red-glow: rgba(0, 0, 0, 0.15);
+  /* Brand Color Palette (Honda Racing Blue Theme) */
+  --honda-red: #0b3a7a;
+  --honda-red-dark: #061c3b;
+  --honda-red-light: #ebf1f8;
+  --honda-red-glow: rgba(11, 58, 122, 0.25);
   
   --bg-main: #FFFFFF;
   --bg-soft: #F8FAFC;
@@ -23,7 +23,7 @@
   --text-white: #FFFFFF;
 
   --border-color: #E2E8F0;
-  --border-focus: #DA291C;
+  --border-focus: #0b3a7a;
 
   --success-green: #16A34A;
   --success-light: #F0FDF4;
