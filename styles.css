@@ -64,10 +64,17 @@ body {
   font-family: var(--font-body);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main.app-container {
-  min-height: 60vh;
+  flex: 1 0 auto;
+}
+
+html {
+  background-color: #0D1527; /* Match footer color for scroll bounce */
 }
 
 h1, h2, h3, h4, h5, h6 {
