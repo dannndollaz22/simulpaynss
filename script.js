@@ -584,4 +584,172 @@ function initPriceListTable() {
   }
 }
 
+/* --------------------------------------------------------------------------
+   CALCULATOR LOGIC
+   -------------------------------------------------------------------------- */
+let calcTokens = [];
 
+function updateCalcDisplay() {
+  const display = document.getElementById('calc-display');
+  if(!display) return;
+  
+  if (calcTokens.length === 0) {
+    display.textContent = '0';
+    display.style.fontSize = '4rem';
+    return;
+  }
+  
+  let str = '';
+  calcTokens.forEach(t => {
+    if(['+', '-', '*', '/'].includes(t)) {
+      str += ' ' + t.replace('*', '×').replace('/', '÷') + ' ';
+    } else {
+      let isPercent = t.endsWith('%');
+      let numStr = isPercent ? t.slice(0, -1) : t;
+      let parts = numStr.split(',');
+      let intPart = parts[0];
+      
+      let formattedInt = '';
+      if(intPart === '-0' || intPart === '-') {
+        formattedInt = intPart;
+      } else {
+        let n = parseInt(intPart);
+        if(!isNaN(n)) formattedInt = n.toLocaleString('id-ID');
+        else formattedInt = intPart;
+      }
+      
+      let fullStr = parts.length > 1 ? formattedInt + ',' + parts[1] : formattedInt;
+      str += isPercent ? fullStr + '%' : fullStr;
+    }
+  });
+  
+  display.textContent = str;
+  
+  if(str.length > 32) {
+    display.style.fontSize = '1.25rem';
+  } else if(str.length > 22) {
+    display.style.fontSize = '1.75rem';
+  } else if(str.length > 14) {
+    display.style.fontSize = '2.25rem';
+  } else if(str.length > 9) {
+    display.style.fontSize = '3rem';
+  } else {
+    display.style.fontSize = '4rem';
+  }
+}
+
+function calcEvaluate() {
+  if (calcTokens.length === 0) return;
+  
+  let result = 0;
+  let currentOp = '+';
+  for (let i = 0; i < calcTokens.length; i++) {
+    let t = calcTokens[i];
+    if (['+', '-', '*', '/'].includes(t)) {
+      currentOp = t;
+    } else {
+      let isPercent = t.endsWith('%');
+      let numStr = isPercent ? t.slice(0, -1) : t;
+      let num = parseFloat(numStr.replace(',', '.'));
+      if(isNaN(num)) continue;
+      
+      let valToApply = num;
+      if (isPercent) {
+        if (currentOp === '+' || currentOp === '-') valToApply = result * (num / 100);
+        else valToApply = num / 100;
+      }
+      
+      if (currentOp === '+') result += valToApply;
+      else if (currentOp === '-') result -= valToApply;
+      else if (currentOp === '*') result *= valToApply;
+      else if (currentOp === '/') result /= valToApply;
+    }
+  }
+  
+  result = Math.round(result * 100000000) / 100000000;
+  calcTokens = [result.toString().replace('.', ',')];
+  updateCalcDisplay();
+}
+
+window.calcInput = function(val) {
+  if(val === 'AC') {
+    calcTokens = [];
+    updateCalcDisplay();
+    return;
+  }
+  
+  if(val === 'DEL') {
+    if(calcTokens.length > 0) {
+      let lastToken = calcTokens[calcTokens.length - 1];
+      if(['+', '-', '*', '/'].includes(lastToken)) {
+        calcTokens.pop();
+      } else {
+        lastToken = lastToken.slice(0, -1);
+        if(lastToken === '' || lastToken === '-') {
+          calcTokens.pop();
+        } else {
+          calcTokens[calcTokens.length - 1] = lastToken;
+        }
+      }
+      updateCalcDisplay();
+    }
+    return;
+  }
+  
+  if(val === '=') {
+    calcEvaluate();
+    return;
+  }
+  
+  if(['+', '-', '*', '/'].includes(val)) {
+    if(calcTokens.length === 0) {
+      if(val === '-') calcTokens.push('-0');
+      return;
+    }
+    let lastToken = calcTokens[calcTokens.length - 1];
+    if(['+', '-', '*', '/'].includes(lastToken)) {
+      calcTokens[calcTokens.length - 1] = val;
+    } else {
+      calcTokens.push(val);
+    }
+    updateCalcDisplay();
+    return;
+  }
+  
+  if(val === '%') {
+    if(calcTokens.length > 0) {
+      let lastToken = calcTokens[calcTokens.length - 1];
+      if(!['+', '-', '*', '/'].includes(lastToken) && !lastToken.endsWith('%')) {
+        calcTokens[calcTokens.length - 1] = lastToken + '%';
+        updateCalcDisplay();
+      }
+    }
+    return;
+  }
+  
+  if(calcTokens.length === 0) {
+    if(val === ',') calcTokens.push('0,');
+    else calcTokens.push(val);
+  } else {
+    let lastToken = calcTokens[calcTokens.length - 1];
+    if(['+', '-', '*', '/'].includes(lastToken)) {
+      if(val === ',') calcTokens.push('0,');
+      else calcTokens.push(val);
+    } else {
+      if(lastToken.endsWith('%')) {
+        calcTokens.push('*');
+        calcTokens.push(val === ',' ? '0,' : val);
+      } else {
+        if(val === ',') {
+          if(!lastToken.includes(',')) calcTokens[calcTokens.length - 1] += ',';
+        } else {
+          if(lastToken === '0') calcTokens[calcTokens.length - 1] = val;
+          else if(lastToken === '-0') calcTokens[calcTokens.length - 1] = '-' + val;
+          else calcTokens[calcTokens.length - 1] += val;
+        }
+      }
+    }
+  }
+  
+  updateCalcDisplay();
+}

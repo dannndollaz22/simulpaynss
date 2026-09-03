@@ -150,6 +150,14 @@
           <span class="tab-desc">Harga Akhir</span>
         </div>
       </button>
+
+      <button class="nav-tab" data-tab="calculator">
+        <div class="tab-icon">🧮</div>
+        <div class="tab-text">
+          <span class="tab-title">3. Kalkulator</span>
+          <span class="tab-desc">Hitung Cepat</span>
+        </div>
+      </button>
     </div>
 
     <!-- --------------------------------------------------------------------- -->
@@ -481,10 +489,76 @@
       </div>
     </div>
 
+    <!-- --------------------------------------------------------------------- -->
+    <!-- TAB 3: KALKULATOR SALES -->
+    <!-- --------------------------------------------------------------------- -->
+    <div id="tab-calculator" class="tab-panel">
+      <div class="simulation-layout"
+        style="display: flex; justify-content: center; align-items: center; min-height: 500px;">
+        <div class="calculator-container"
+          style="background: var(--bg-card); border-radius: 1.5rem; padding: 1.5rem; width: 100%; max-width: 320px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid var(--border-color);">
+          <!-- Display -->
+          <div id="calc-display"
+            style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 0.75rem; color: #0F172A; font-size: 3.5rem; text-align: right; font-weight: 700; padding: 0 1rem; margin-bottom: 1.25rem; white-space: nowrap; overflow-x: auto; overflow-y: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.04); height: 110px; display: flex; align-items: center; justify-content: flex-end;">
+            0</div>
 
+          <!-- Keypad -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem;">
+            <!-- Row 1 -->
+            <button class="calc-btn calc-btn-light" onclick="calcInput('AC')"
+              style="background: var(--honda-red-light); color: var(--honda-red); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.15rem; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">AC</button>
+            <button class="calc-btn calc-btn-light" onclick="calcInput('DEL')"
+              style="background: var(--honda-red-light); color: var(--honda-red); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.15rem; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;"><i
+                data-lucide="delete" style="width: 22px; height: 22px;"></i></button>
+            <button class="calc-btn calc-btn-light" onclick="calcInput('%')"
+              style="background: var(--honda-red-light); color: var(--honda-red); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.15rem; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">%</button>
+            <button class="calc-btn calc-btn-orange" onclick="calcInput('/')"
+              style="background: var(--honda-red); color: #fff; border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">&divide;</button>
+
+            <!-- Row 2 -->
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('7')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">7</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('8')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">8</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('9')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">9</button>
+            <button class="calc-btn calc-btn-orange" onclick="calcInput('*')"
+              style="background: var(--honda-red); color: #fff; border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">&times;</button>
+
+            <!-- Row 3 -->
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('4')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">4</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('5')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">5</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('6')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">6</button>
+            <button class="calc-btn calc-btn-orange" onclick="calcInput('-')"
+              style="background: var(--honda-red); color: #fff; border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">&minus;</button>
+
+            <!-- Row 4 -->
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('1')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">1</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('2')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">2</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('3')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">3</button>
+            <button class="calc-btn calc-btn-orange" onclick="calcInput('+')"
+              style="background: var(--honda-red); color: #fff; border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">+</button>
+
+            <!-- Row 5 -->
+            <button class="calc-btn calc-btn-dark" onclick="calcInput('0')"
+              style="grid-column: span 2; background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">0</button>
+            <button class="calc-btn calc-btn-dark" onclick="calcInput(',')"
+              style="background: #ffffff; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">,</button>
+            <button class="calc-btn calc-btn-orange" onclick="calcInput('=')"
+              style="background: var(--honda-red); color: #fff; border-radius: 0.75rem; aspect-ratio: 1/1; font-size: 1.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s ease;">=</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- --------------------------------------------------------------------- -->
-    <!-- 3. HONDA MOTORCYCLE PRICE LIST TABLE -->
+    <!-- 4. HONDA MOTORCYCLE PRICE LIST TABLE -->
     <!-- --------------------------------------------------------------------- -->
     <section class="pricelist-section">
       <div class="section-title-box">
