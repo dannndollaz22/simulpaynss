@@ -62,14 +62,62 @@ let activeTab = 'kredit'; // 'kredit', 'cash'
 // Cash State
 let cashDiscount = 0; // Diskon tunai promo
 let cashDpBooking = 0; // DP tanda jadi cash
+let cashBudgetManual = null; // null = auto dari motor, angka = manual override
 
 // Kredit State
 let activeLeasing = 'fif'; // 'fif', 'oto', 'bca'
 let kreditTac1 = 0;
 let kreditTac2 = 0;
 let kreditDpAmount = 0;
-let kreditSubsidiManual = 0; // null = auto dari motor, angka = manual override
+let kreditSubsidiManual = null; // null = auto dari motor, angka = manual override
+let kreditBudgetManual = null; // null = auto dari motor
 let kreditBungaPerBulan = 0; // % per bulan, default 0%
+
+// Helper: Get Max Budget for Commission (Cash)
+function getMaxBudget(motor, type) {
+  const name = motor.name.toLowerCase();
+  if (type === 'cash') {
+    if (name.includes('beat')) return 800000;
+    if (name.includes('scoopy')) return 800000;
+    if (name.includes('v125') || name.includes('vario 125')) return 1000000;
+    if (name.includes('pcx')) return 1000000;
+    if (name.includes('stylo')) return 1000000;
+    if (name.includes('vario evo 160') || name.includes('vario 160')) return 500000;
+    return 500000; // default cash budget
+  }
+  return 0;
+}
+
+// Helper: Get DP Pricelist (Kredit)
+function getDpPricelist(motor) {
+  const name = motor.name.toLowerCase();
+  if (name.includes('beat')) return 2200000;
+  if (name.includes('scoopy')) return 2600000;
+  if (name.includes('v125') || name.includes('vario 125')) return 2700000;
+  if (name.includes('pcx')) return 3700000;
+  if (name.includes('stylo')) return 3300000;
+  if (name.includes('vario evo 160') || name.includes('vario 160')) return 3100000;
+  return 2000000; // default dp pricelist
+}
+
+// Helper: Get DP Minimal (Kredit)
+function getDpMinimal(motor) {
+  const name = motor.name.toLowerCase();
+  if (name.includes('beat') || name.includes('scoopy')) return 500000;
+  if (name.includes('v125') || name.includes('vario 125')) return 700000;
+  if (name.includes('pcx')) return 1400000;
+  if (name.includes('stylo') || name.includes('vario evo 160') || name.includes('vario 160')) return 1000000;
+  return 1000000; // default
+}
+
+// Helper: Get Subsidi Maksimal (Kredit)
+function getSubsidiMaksimal(motor) {
+  const name = motor.name.toLowerCase();
+  if (name.includes('beat') || name.includes('v125') || name.includes('vario 125')) return 2000000;
+  if (name.includes('scoopy') || name.includes('vario evo 160') || name.includes('vario 160')) return 2100000;
+  if (name.includes('pcx') || name.includes('stylo')) return 2300000;
+  return 1500000; // default
+}
 
 // Helper: Format Currency Rupiah
 function formatRupiah(num) {
@@ -191,6 +239,24 @@ function updateMotorSelection(motorId) {
     if (subsidiInput) subsidiInput.value = autoSubsidi.toLocaleString('id-ID');
   }
 
+  // Update Budget Komisi
+  if (cashBudgetManual === null) {
+    const cashBudgetInput = document.getElementById('cash-budget-input');
+    if (cashBudgetInput) cashBudgetInput.value = getMaxBudget(motor, 'cash').toLocaleString('id-ID');
+  }
+  
+  if (kreditBudgetManual === null) {
+    const kreditBudgetInput = document.getElementById('kredit-budget-input');
+    if (kreditBudgetInput) kreditBudgetInput.value = getDpPricelist(motor).toLocaleString('id-ID');
+  }
+  
+  // Update Hints for limits
+  const hintDp = document.getElementById('kredit-dp-hint');
+  if (hintDp) hintDp.textContent = `* Minimal DP: ${formatRupiah(getDpMinimal(motor))}`;
+
+  const hintSubsidi = document.getElementById('kredit-subsidi-hint');
+  if (hintSubsidi) hintSubsidi.textContent = `* Maksimal Subsidi: ${formatRupiah(getSubsidiMaksimal(motor))}`;
+
   // Update All Active Calculations
   calculateCash();
   if (typeof calculateKredit === 'function') calculateKredit();
@@ -227,6 +293,7 @@ function initTabNavigation() {
 function initCashListeners() {
   const discInput = document.getElementById('cash-discount-input');
   const bookingInput = document.getElementById('cash-booking-input');
+  const budgetInput = document.getElementById('cash-budget-input');
 
   if (discInput) {
     discInput.addEventListener('input', (e) => {
@@ -240,6 +307,14 @@ function initCashListeners() {
     bookingInput.addEventListener('input', (e) => {
       cashDpBooking = parseCurrency(e.target.value);
       formatInputWithCursor(e, cashDpBooking);
+      calculateCash();
+    });
+  }
+
+  if (budgetInput) {
+    budgetInput.addEventListener('input', (e) => {
+      cashBudgetManual = parseCurrency(e.target.value);
+      formatInputWithCursor(e, cashBudgetManual);
       calculateCash();
     });
   }
@@ -261,6 +336,16 @@ function calculateCash() {
   if (discEl) discEl.textContent = '- ' + formatRupiah(cashDiscount);
   if (bookingEl) bookingEl.textContent = '- ' + formatRupiah(cashDpBooking);
   if (remainEl) remainEl.textContent = formatRupiah(remainingOnDelivery);
+
+  // Komisi Calculation
+  const budget = (cashBudgetManual !== null) ? cashBudgetManual : getMaxBudget(selectedMotor, 'cash');
+  const komisi = budget - cashDiscount;
+  
+  const givenInput = document.getElementById('cash-given-input');
+  const komisiResult = document.getElementById('cash-komisi-result');
+  
+  if (givenInput) givenInput.value = formatRupiah(cashDiscount);
+  if (komisiResult) komisiResult.textContent = formatRupiah(komisi);
 }
 
 /* --------------------------------------------------------------------------
@@ -287,6 +372,7 @@ function getSubsidiDealer(motor) {
 function initKreditListeners() {
   const tac1Input = document.getElementById('kredit-tac1-input');
   const tac2Input = document.getElementById('kredit-tac2-input');
+  const budgetInput = document.getElementById('kredit-budget-input');
   
   document.querySelectorAll('.leasing-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -351,6 +437,14 @@ function initKreditListeners() {
     bungaInput.addEventListener('input', (e) => {
       const val = parseFloat(e.target.value);
       kreditBungaPerBulan = (!isNaN(val) && val >= 0) ? val : 0;
+      calculateKredit();
+    });
+  }
+
+  if (budgetInput) {
+    budgetInput.addEventListener('input', (e) => {
+      kreditBudgetManual = parseCurrency(e.target.value);
+      formatInputWithCursor(e, kreditBudgetManual);
       calculateKredit();
     });
   }
@@ -432,6 +526,17 @@ function calculateKredit() {
   if (tot12) tot12.textContent = formatRupiah(dp + inst12 * 12);
   if (tot24) tot24.textContent = formatRupiah(dp + inst24 * 24);
   if (tot36) tot36.textContent = formatRupiah(dp + inst36 * 36);
+
+  // Komisi Calculation
+  const dpPricelist = (kreditBudgetManual !== null) ? kreditBudgetManual : getDpPricelist(selectedMotor);
+  const totalPendapatan = finalResult + dp;
+  const komisi = totalPendapatan - dpPricelist;
+  
+  const givenInput = document.getElementById('kredit-given-input');
+  const komisiResult = document.getElementById('kredit-komisi-result');
+  
+  if (givenInput) givenInput.value = formatRupiah(totalPendapatan);
+  if (komisiResult) komisiResult.textContent = formatRupiah(komisi);
 }
 
 /* --------------------------------------------------------------------------

@@ -203,6 +203,9 @@
               <span>DP / Uang Muka (Rp)</span>
             </label>
             <input type="text" id="kredit-dp-input" class="form-input text-right font-black" value="0" />
+            <p id="kredit-dp-hint"
+              style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; font-weight: 600;">* Minimal DP:
+              Rp 0</p>
           </div>
 
           <div class="form-group mt-3">
@@ -211,6 +214,9 @@
               <span>Subsidi Dealer (Rp)</span>
             </label>
             <input type="text" id="kredit-subsidi-input" class="form-input text-right font-black" value="0" />
+            <p id="kredit-subsidi-hint"
+              style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; font-weight: 600;">* Maksimal
+              Subsidi: Rp 0</p>
           </div>
 
           <div class="form-group mt-3">
@@ -223,6 +229,48 @@
                 max="10" step="0.1" style="flex: 1;" />
             </div>
           </div>
+          <!-- INTERNAL COMMISSION SECTION -->
+          <div class="internal-commission-section"
+            style="border-top: 2px dashed #CBD5E1; margin-top: 1.5rem; padding-top: 1rem;">
+            <div style="margin-bottom: 1rem;">
+              <i data-lucide="lock" style="width: 18px; height: 18px; color: #0F172A; margin-bottom: 0.25rem;"></i>
+              <h3 style="color: var(--honda-red); font-size: 1rem; font-weight: 800; margin: 0 0 0.5rem 0;">Komisi
+                (Kredit)</h3>
+              <span
+                style="font-size: 0.65rem; background: var(--honda-red); color: white; padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Rahasia</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+              <div class="form-group">
+                <label class="form-label"
+                  style="text-transform: uppercase; font-weight: 700; color: #64748B; font-size: 0.7rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+                  <i data-lucide="target" style="width: 16px; height: 16px;"></i> DP Pricelist (Rp)
+                </label>
+                <input type="text" id="kredit-budget-input" class="form-input font-black" value="0"
+                  style="padding: 0.6rem 0.75rem; font-size: 0.95rem; border-radius: 8px;" />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  style="text-transform: uppercase; font-weight: 700; color: #64748B; font-size: 0.7rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+                  <i data-lucide="banknote" style="width: 16px; height: 16px;"></i> Cair + DP Konsumen (Rp)
+                </label>
+                <input type="text" id="kredit-given-input" class="form-input font-black" value="0" readonly
+                  style="background: #F8FAFC; color: #64748B; padding: 0.6rem 0.75rem; font-size: 0.95rem; border-radius: 8px;" />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  style="text-transform: uppercase; font-weight: 700; color: var(--honda-red); font-size: 0.7rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+                  <i data-lucide="wallet" style="width: 16px; height: 16px;"></i> Komisi Bersih (Rp)
+                </label>
+                <div id="kredit-komisi-result" class="form-input font-black"
+                  style="display: flex; align-items: center; justify-content: flex-start; background: #eff6ff; border: 1px solid #bfdbfe; color: var(--honda-red); padding: 0.6rem 0.75rem; font-size: 0.95rem; border-radius: 8px;">
+                  Rp 0</div>
+              </div>
+            </div>
+          </div>
+          <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1rem; font-weight: 600;">
+            <i data-lucide="info" class="w-3.5 h-3.5 inline mr-1"></i> * Komisi = (Pencairan Akhir + DP Konsumen) - DP
+            Pricelist.
+          </p>
         </div>
 
         <div class="results-card flex flex-col justify-between">
@@ -307,6 +355,8 @@
           </div>
         </div>
 
+        <!-- Internal Commission Section Moved -->
+
       </div>
     </div>
 
@@ -324,21 +374,69 @@
           </div>
 
           <div class="form-group mb-4">
-            <label class="form-label">Harga OTR Motor Honda</label>
-            <input type="text" class="form-input selected-motor-otr font-black" readonly />
+            <label class="form-label"
+              style="text-transform: uppercase; font-weight: 700; color: #475569; font-size: 0.75rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+              Harga OTR Motor Honda
+            </label>
+            <input type="text" class="form-input selected-motor-otr" readonly
+              style="font-weight: 600; padding: 0.6rem 0.75rem; border-radius: 8px;" />
           </div>
 
           <div class="form-group mb-4">
-            <label class="form-label text-slate-600">
-              <i data-lucide="tag" class="w-3.5 h-3.5"></i>
+            <label class="form-label"
+              style="text-transform: uppercase; font-weight: 700; color: #475569; font-size: 0.75rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+              <i data-lucide="tag" style="width: 16px; height: 16px;"></i>
               Potongan Diskon Promo Cash (Rp)
             </label>
-            <input type="text" id="cash-discount-input" class="form-input" value="0" />
+            <input type="text" id="cash-discount-input" class="form-input" value="0"
+              style="font-weight: 600; padding: 0.6rem 0.75rem; border-radius: 8px;" />
           </div>
 
           <div class="form-group">
-            <label class="form-label">DP Tanda Jadi / Booking Fee (Rp)</label>
-            <input type="text" id="cash-booking-input" class="form-input" value="0" />
+            <label class="form-label"
+              style="text-transform: uppercase; font-weight: 700; color: #475569; font-size: 0.75rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+              DP Tanda Jadi / Booking Fee (Rp)
+            </label>
+            <input type="text" id="cash-booking-input" class="form-input" value="0"
+              style="font-weight: 600; padding: 0.6rem 0.75rem; border-radius: 8px;" />
+          </div>
+          <!-- INTERNAL COMMISSION SECTION -->
+          <div class="internal-commission-section"
+            style="border-top: 2px dashed #CBD5E1; margin-top: 1.5rem; padding-top: 1rem;">
+            <div style="margin-bottom: 1rem;">
+              <i data-lucide="lock" style="width: 18px; height: 18px; color: #0F172A; margin-bottom: 0.25rem;"></i>
+              <h3 style="color: var(--honda-red); font-size: 1rem; font-weight: 800; margin: 0 0 0.5rem 0;">Komisi Sales
+                (Tunai)</h3>
+              <span
+                style="font-size: 0.65rem; background: var(--honda-red); color: white; padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">Private</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+              <div class="form-group">
+                <label class="form-label"
+                  style="text-transform: uppercase; font-weight: 700; color: #64748B; font-size: 0.7rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+                  <i data-lucide="target" style="width: 16px; height: 16px;"></i> Budget / Rekomendasi (Rp)
+                </label>
+                <input type="text" id="cash-budget-input" class="form-input font-black" value="0"
+                  style="padding: 0.6rem 0.75rem; font-size: 0.95rem; border-radius: 8px;" />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  style="text-transform: uppercase; font-weight: 700; color: #64748B; font-size: 0.7rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+                  <i data-lucide="users" style="width: 16px; height: 16px;"></i> Diskon ke Konsumen (Rp)
+                </label>
+                <input type="text" id="cash-given-input" class="form-input font-black" value="0" readonly
+                  style="background: #F8FAFC; color: #64748B; padding: 0.6rem 0.75rem; font-size: 0.95rem; border-radius: 8px;" />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  style="text-transform: uppercase; font-weight: 700; color: var(--honda-red); font-size: 0.7rem; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem;">
+                  <i data-lucide="wallet" style="width: 16px; height: 16px;"></i> Komisi Bersih (Rp)
+                </label>
+                <div id="cash-komisi-result" class="form-input font-black"
+                  style="display: flex; align-items: center; justify-content: flex-start; background: #eff6ff; border: 1px solid #bfdbfe; color: var(--honda-red); padding: 0.6rem 0.75rem; font-size: 0.95rem; border-radius: 8px;">
+                  Rp 0</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -377,6 +475,8 @@
 
 
         </div>
+
+        <!-- Internal Commission Section Moved -->
 
       </div>
     </div>
