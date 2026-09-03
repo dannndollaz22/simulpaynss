@@ -1992,6 +1992,11 @@ input, select, button {
 }
 
  /* Calculator Styles */
+.calc-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.05s ease-out, filter 0.05s ease-out, background-color 0.05s ease-out !important;
+}
 .calc-btn:hover {
   filter: brightness(0.95);
 }

@@ -387,11 +387,11 @@ function initKreditListeners() {
       if(activeLeasing === 'fif') {
         if(tac2Group) tac2Group.style.display = 'flex';
         if(tac2Row) tac2Row.style.display = 'table-row';
-        if(formulaDesc) formulaDesc.textContent = 'FIF: (TAC 1 + TAC 2) - 12% - Rp225.000 + Subsidi Leasing';
+        if(formulaDesc) formulaDesc.textContent = 'FIF: (TAC 1 + TAC 2) - Pajak 12% ALL - Rp225.000 + Subsidi Dealer';
       } else {
         if(tac2Group) tac2Group.style.display = 'none';
         if(tac2Row) tac2Row.style.display = 'none';
-        if(formulaDesc) formulaDesc.textContent = 'OTO/BCA: TAC 1 - 12% - Rp225.000 + Subsidi Leasing';
+        if(formulaDesc) formulaDesc.textContent = activeLeasing.toUpperCase() + ': TAC 1 - Pajak 12% ALL - Rp225.000 + Subsidi Dealer';
       }
       
       calculateKredit();
@@ -550,7 +550,7 @@ function initPriceListTable() {
   function renderTable(items) {
     tbody.innerHTML = '';
     items.forEach((m, idx) => {
-      const estDp = Math.round((m.otr * 0.15) / 50000) * 50000;
+      const estDp = Math.round((m.otr * 0.10) / 50000) * 50000;
       const loan = m.otr - estDp;
       const estInst = Math.round(((loan * 1.6) / 36) / 1000) * 1000;
 
