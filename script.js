@@ -473,7 +473,10 @@ function calculateKredit() {
   // Installment: angsuran = (pokok / tenor) + (pokok × suku bunga per bulan)
   const otr = selectedMotor.otr;
   const dp = kreditDpAmount;
-  const loan = Math.max(0, otr - dp);
+  
+  // Pokok Pinjaman = OTR - DP Gross (DP Gross = DP Bayar + Subsidi Dealer)
+  const loan = Math.max(0, otr - dp - subsidi);
+  
   const rate = kreditBungaPerBulan / 100;
   const calcInstallment = (months) => {
     return Math.round(((loan / months) + (loan * rate)) / 1000) * 1000;
@@ -551,8 +554,6 @@ function initPriceListTable() {
     tbody.innerHTML = '';
     items.forEach((m, idx) => {
       const estDp = Math.round((m.otr * 0.10) / 50000) * 50000;
-      const loan = m.otr - estDp;
-      const estInst = Math.round(((loan * 1.6) / 36) / 1000) * 1000;
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
