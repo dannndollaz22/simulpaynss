@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Komisi Marketing</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6;
+            padding: 20px; 
+        }
+        .container {
+            max-width: 500px; 
+            margin: auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 { text-align: center; color: #333; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; color: #444; }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            font-size: 15px;
+        }
+        input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+            cursor: not-allowed;
+            font-weight: bold;
+        }
+        button { 
+            padding: 12px 15px; 
+            background-color: #dc3545; 
+            color: white; 
+            border: none; 
+            border-radius: 5px;
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #c82333; }
+        .result { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background-color: #e9ecef; 
+            border-radius: 5px;
+            font-size: 20px; 
+            font-weight: bold; 
+            text-align: center; 
+            color: #212529;
+        }
+        .breakdown {
+            font-size: 13px;
+            font-weight: normal;
+            color: #6c757d;
+            margin-top: 10px;
+            display: block;
+            line-height: 1.5;
+        }
+        .note { font-size: 12px; color: #d9534f; margin-top: 5px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Kalkulator Komisi Unit</h2>
+
+        <div class="form-group">
+            <label for="leasing">Sistem Pembayaran / Leasing:</label>
+            <select id="leasing" onchange="toggleTAC2()">
+                <option value="FIF">FIF</option>
+                <option value="OTO">OTO</option>
+                <option value="BCA">BCA</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="tac1">Nilai TAC 1 (Rp):</label>
+            <input type="number" id="tac1" placeholder="Contoh: 1500000" min="0">
+        </div>
+
+        <div class="form-group" id="group-tac2">
+            <label for="tac2">Nilai TAC 2 (Rp):</label>
+            <input type="number" id="tac2" value="800000" readonly>
+            <div class="note">*TAC 2 untuk FIF otomatis diset Rp 800.000 untuk semua unit</div>
+        </div>
+
+        <div class="form-group">
+            <label for="motor">Tipe Motor (Untuk Subsidi Dealer):</label>
+            <select id="motor">
+                <option value="1500000">ADV (Rp 1.500.000)</option>
+                <option value="1150000">Sport (Rp 1.150.000)</option>
+                <option value="1100000">Beat (Rp 1.100.000)</option>
+                <option value="1000000">PCX (Rp 1.000.000)</option>
+                <option value="1000000">Vario 160 / v160 (Rp 1.000.000)</option>
+                <option value="900000">Scoopy (Rp 900.000)</option>
+                <option value="900000">Vario 125 / v125 (Rp 900.000)</option>
+                <option value="900000">Stylo (Rp 900.000)</option>
+                <option value="650000">Cup / Cub (Rp 650.000)</option>
+            </select>
+        </div>
+
+        <button onclick="hitungKomisi()">Hitung Komisi</button>
+
+        <div class="result" id="hasil">
+            Total Komisi: Rp 0
+            <span class="breakdown">Silakan isi nilai TAC 1 dan klik Hitung.</span>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk menyembunyikan/menampilkan TAC 2 tergantung Leasing
+        function toggleTAC2() {
+            var leasing = document.getElementById("leasing").value;
+            var groupTac2 = document.getElementById("group-tac2");
+            if (leasing === "FIF") {
+                groupTac2.style.display = "block";
+                document.getElementById("tac2").value = "800000"; // Selalu set ke 800rb
+            } else {
+                groupTac2.style.display = "none";
+                document.getElementById("tac2").value = "0";
+            }
+        }
+
+        function hitungKomisi() {
+            var leasing = document.getElementById("leasing").value;
+            var tac1 = parseFloat(document.getElementById("tac1").value) || 0;
+            var tac2 = parseFloat(document.getElementById("tac2").value) || 0;
+            var subsidi = parseFloat(document.getElementById("motor").value) || 0;
+            var voucher = 225000;
+            
+            var baseTac = tac1;
+            if (leasing === "FIF") {
+                baseTac = tac1 + tac2;
+            }
+
+            var pajak = baseTac * 0.12; // Pajak 12%
+            var totalKomisi = baseTac - pajak - voucher + subsidi;
+
+            // Format angka ke mata uang Rupiah
+            var formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            });
+
+            var breakdownHtml = 
+                "TAC Dasar" + (leasing === "FIF" ? " (TAC 1 + TAC 2)" : " (TAC 1)") + ": " + formatter.format(baseTac) + "<br>" +
+                "Potong Pajak (12%): - " + formatter.format(pajak) + "<br>" +
+                "Potong Voucher: - " + formatter.format(voucher) + "<br>" +
+                "Tambah Subsidi: + " + formatter.format(subsidi);
+
+            document.getElementById("hasil").innerHTML = 
+                "Total Komisi: " + formatter.format(totalKomisi) + 
+                "<span class='breakdown'>" + breakdownHtml + "</span>";
+        }
+    </script>
+</body>
+</html>
